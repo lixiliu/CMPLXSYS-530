@@ -33,31 +33,49 @@ _This study explores the interactions between occupants and smart sensors: 1) ._
 ****
 &nbsp; 
 ### 1) Environment
-_The environment consists of a single office room serving a speficic function (e.g. room with individual work spaces/cubicles, conference room, pantry) as well as the amount of daylight entering the rooms through window blinds)._
+_The environment consists of a single office room serving a speficic function (e.g. room with individual work spaces/cubicles, conference room, pantry, restroom). Its layout (e.g. size, window and door locations) will be defined in the setup._
 
-* _Boundary conditions: fixed (office enclosed by walls)_
+* _Boundary conditions: fixed (enclosed by walls)_
 * _Dimensionality: 2D_
-* _List of environment-owned variables:_ ..
-..1. _amount of reflected daylight_
-..2. _room temperature (assuming _
+* _List of environment-owned variables:_
+  + _reflected daylight (amount of daylight entering the room through controllable window blinds)_
+  + _luminous level (total brightness from overhead lamps and reflected daylight)_
+  + _room temperature (assume uniform)_
+* _List of environment-owned methods/procedures:_
+  + _adjust dimming_
+  + _adjust temperature_
 
 
 ```python
-# Include first pass of the code you are thinking of using to construct your environment
-# This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
-# Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
-# NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
+# Pseudocode:
+def Room():
+
 ```
 
 &nbsp; 
 
 ### 2) Agents
  
- _There are two types of agents. The first type is **occupants** (workers) in the building, each with a specific work schedule and preference for luminous level._ 
-* _List of occupant-owned variables:_schedule, brightness preference, thermal preference, satisfaction level_
-* _List of occupant-owned methods/procedures: arrive, work(at desk), lunch, meeting, break(random movement), leave_
+ _There are two main types of agents. The first type is **occupants** (workers) in the building, each with a specific work schedule and preference for luminous level._ 
+* _List of occupant-owned variables:_
+  + _schedule (e.g. when to enter and leave room)_
+  + _brightness preference_
+  + _thermal preference_ 
+  + _satisfaction level (of room condition relative to preference, equally weighted between brightness and temperature)_
+* _List of occupant-owned methods/procedures:_
+  + _enter room_
+  + _leave room_
+  + _move (with some probability of being still, e.g. sitting at a meeting, working at a desk)_
 
-_The second type is **dimming sensors** that adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
+_The second type is **sensors**, which include: motion sensors, daylight sensors, and HVAC sensors._
+1. **Motion sensors** turn lights on based on occupants' movement and keep them on for some time after the last detected movement. Motion sensors are best for high-motion, low traffic rooms such as restrooms or pantry.
+* _List of motion sensor-owned variables:_
+  + _motion-detected? (binary)_
+  + _timer (number of time steps since the last detected motion)_
+* _List of motion sensor-owned methods/procedures:_
+  + _turn on/off_
+
+_The third type adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
 * _List of sensor-owned variables:__
 * _List of sensor-owned methods/procedures: adjust_brightness_
 
