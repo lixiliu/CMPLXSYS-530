@@ -55,7 +55,7 @@ _The environment consists of a single-floor office with rooms serving different 
  _There are two types of agents. The first type is occupants (workers) in the building, with random movement, transition status (when to arrive and leave work, etc), and heterogeneous preference for luminous level. The second type is dimming sensors that adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
  
 * _List of occupant-owned variables:_ 
-..* _daily schedule_
+...* _daily schedule_
 * _List of occupant-owned methods/procedures: (e.g. move, consume, reproduce, die, etc.)_
 
 
