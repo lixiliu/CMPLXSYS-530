@@ -38,8 +38,8 @@ _The environment consists of a single office room serving a speficic function (e
 * _Boundary conditions: fixed (office enclosed by walls)_
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_ 
-...+ _amount of reflected daylight_
-...+ _room temperature (assuming _
+..+ _amount of reflected daylight_
+..+ _room temperature (assuming _
 
 
 ```python
