@@ -1,4 +1,4 @@
-# Model Proposal for _Smart Lighting_
+# Model Proposal for _Smart Lighting for Offices_
 
 _Lixi Liu_
 
@@ -13,7 +13,7 @@ _Lixi Liu_
 ### Goal 
 *****
  
-_With increasing energy efficiency and smart features that can adapt to occupants' perferences and communicate with other appliances, smart lighting can revolutionize the quality of modern life. This study explores whether smart lighting sensors and program can help minimize energy rebound, a common behavioral tendency in which occupants increase consumption post-adoption of more energy-efficient products, thus leading to an erosion of energy savings._
+_With increasing energy efficiency and smart features that can adapt to occupants' perferences and communicate with other appliances, smart lighting can improve the quality of modern life while reducing energy use and carbon footprint. This study explores whether smart lighting sensors and program can help minimize energy rebound, a common behavioral tendency in which occupants increase consumption post-adoption of more energy-efficient products, thus leading to an erosion of energy savings._
 
 &nbsp;  
 ### Justification
@@ -33,11 +33,11 @@ _This study explores the interactions between occupants and smart sensors: 1) ._
 ****
 &nbsp; 
 ### 1) Environment
-_The environment consists of a single-floor office with rooms serving different functions (e.g. work spaces, conference rooms, pantry) as well as a random weather pattern (which determines the amount of daylight reflected into the building)._
+_The environment consists of a single-floor office with rooms serving different functions (e.g. work spaces, conference rooms, pantry) as well as a random weather pattern (which determines the amount of daylight reflected into the building through blinds)._
 
-* _Boundary conditions: fixed by walls_
+* _Boundary conditions: fixed (office enclosed by walls)_
 * _Dimensionality: 2D_
-* _List of environment-owned variables: (e.g. resources, states, roughness)_
+* _List of environment-owned variables: amount of reflected daylight_
 * _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
 
 
@@ -54,8 +54,9 @@ _The environment consists of a single-floor office with rooms serving different 
  
  _There are two types of agents. The first type is occupants (workers) in the building, with random movement, transition status (when to arrive and leave work, etc), and heterogeneous preference for luminous level. The second type is dimming sensors that adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
  
-* _List of occupant-owned variables: (e.g. age, heading, ID, etc.)_
-* _List of agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
+* _List of occupant-owned variables:_ 
+..* _daily schedule_
+* _List of occupant-owned methods/procedures: (e.g. move, consume, reproduce, die, etc.)_
 
 
 ```python
