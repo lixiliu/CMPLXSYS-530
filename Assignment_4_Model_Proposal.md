@@ -1,4 +1,4 @@
-# Model Proposal for _[Smart Lighting]_
+# Model Proposal for _Smart Lighting_
 
 _Lixi Liu_
 
@@ -13,18 +13,18 @@ _Lixi Liu_
 ### Goal 
 *****
  
-_Provide a short, 1-3 sentence description of the goal of your model_
+_With increasing energy efficiency and smart features that can adapt to occupants' perferences and communicate with other appliances, smart lighting can revolutionize the quality of modern life. This study explores whether smart lighting sensors and program can help minimize energy rebound, a common behavioral tendency in which occupants increase consumption post-adoption of more energy-efficient products, thus leading to an erosion of energy savings._
 
 &nbsp;  
 ### Justification
 ****
-_Short explanation on why you are using ABM_
+_Agent-based modeling is used to examine system-level behaviors that are emerging from individual agent-agent and agent-environment interactions. It is thus useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort. An agent-based model can reveal the emergent patterns that arise from how occupants interact with smart sensors and how smart sensors, in turn, affect their lifestyle. Understanding these interactions can enhance the use of energy efficiency and demand response as viable tools for lowering building energy costs and improving the reliability of the power grid._
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
 ****
 
-_Short overview of the key processes and/or relationships you are interested in using your model to explore. Will likely be something regarding emergent behavior that arises from individual interactions_
+_This study explores the interactions between occupants and smart sensors: 1) ._
 
 &nbsp; 
 
@@ -33,7 +33,7 @@ _Short overview of the key processes and/or relationships you are interested in 
 ****
 &nbsp; 
 ### 1) Environment
-_Description of the environment in your model. Things to specify *if they apply*:_
+_The environment of the model. Things to specify *if they apply*:_
 
 * _Boundary conditions (e.g. wrapping, infinite, etc.)_
 * _Dimensionality (e.g. 1D, 2D, etc.)_
