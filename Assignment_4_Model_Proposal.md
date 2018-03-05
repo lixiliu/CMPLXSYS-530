@@ -33,12 +33,13 @@ _This study explores the interactions between occupants and smart sensors: 1) ._
 ****
 &nbsp; 
 ### 1) Environment
-_The environment consists of a single-floor office with rooms serving different functions (e.g. work spaces, conference rooms, pantry) as well as the amount of daylight entering the rooms through window blinds)._
+_The environment consists of a single office room serving a speficic function (e.g. for individual work space/cubicle, conference, pantry) as well as the amount of daylight entering the rooms through window blinds)._
 
 * _Boundary conditions: fixed (office enclosed by walls)_
 * _Dimensionality: 2D_
-* _List of environment-owned variables: amount of reflected daylight_
-* _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
+* _List of environment-owned variables: 
+... amount of reflected daylight
+... room temperature (assuming _
 
 
 ```python
@@ -52,13 +53,13 @@ _The environment consists of a single-floor office with rooms serving different 
 
 ### 2) Agents
  
- _There are two types of agents. The first type is occupants (workers) in the building, with random movement, transition status (when to arrive and leave work, etc), and heterogeneous preference for luminous level. The second type is dimming sensors that adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
- 
-* _List of occupant-owned variables:_ 
+ _There are two types of agents. The first type is **occupants** (workers) in the building, each with a specific work schedule and preference for luminous level._ 
+* _List of occupant-owned variables:_schedule, brightness preference, thermal preference, satisfaction level_
+* _List of occupant-owned methods/procedures: arrive, work(at desk), lunch, meeting, break(random movement), leave_
 
-...* _daily schedule_
-
-* _List of occupant-owned methods/procedures: (e.g. move, consume, reproduce, die, etc.)_
+_The second type is **dimming sensors** that adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
+* _List of sensor-owned variables:__
+* _List of sensor-owned methods/procedures: adjust_brightness_
 
 
 ```python
@@ -88,7 +89,7 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 ### 4) Model Parameters and Initialization
 
 _Global parameters include:_
-* _time - the length of a typical work day discretized into hourly steps._
+* _time - the length of a typical work day discretized into 5-min intervals._
 * _daylight - hourly solar insolation relative to time (obtained from NREL databsed)._
 
 _Describe how your model will be initialized_
