@@ -37,7 +37,7 @@ _The environment consists of a single office room serving a speficic function (e
 
 * _Boundary conditions: fixed (office enclosed by walls)_
 * _Dimensionality: 2D_
-* _List of environment-owned variables:_ 
+* _List of environment-owned variables:_ ..
 ..1. _amount of reflected daylight_
 ..2. _room temperature (assuming _
 
