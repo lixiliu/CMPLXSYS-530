@@ -33,11 +33,11 @@ _This study explores the interactions between occupants and smart sensors: 1) ._
 ****
 &nbsp; 
 ### 1) Environment
-_The environment of the model. Things to specify *if they apply*:_
+_The environment consists of a single-floor office with rooms serving different functions (e.g. work spaces, conference rooms, pantry) as well as a random weather pattern (which determines the amount of daylight reflected into the building)._
 
-* _Boundary conditions (e.g. wrapping, infinite, etc.)_
-* _Dimensionality (e.g. 1D, 2D, etc.)_
-* _List of environment-owned variables (e.g. resources, states, roughness)_
+* _Boundary conditions: fixed by walls_
+* _Dimensionality: 2D_
+* _List of environment-owned variables: (e.g. resources, states, roughness)_
 * _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
 
 
@@ -52,9 +52,9 @@ _The environment of the model. Things to specify *if they apply*:_
 
 ### 2) Agents
  
- _Description of the "agents" in the system. Things to specify *if they apply*:_
+ _There are two types of agents. The first type is occupants (workers) in the building, with random movement, transition status (when to arrive and leave work, etc), and heterogeneous preference for luminous level. The second type is dimming sensors that adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
  
-* _List of agent-owned variables (e.g. age, heading, ID, etc.)_
+* _List of occupant-owned variables: (e.g. age, heading, ID, etc.)_
 * _List of agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
 
 
