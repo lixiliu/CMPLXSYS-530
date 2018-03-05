@@ -33,13 +33,13 @@ _This study explores the interactions between occupants and smart sensors: 1) ._
 ****
 &nbsp; 
 ### 1) Environment
-_The environment consists of a single office room serving a speficic function (e.g. for individual work space/cubicle, conference, pantry) as well as the amount of daylight entering the rooms through window blinds)._
+_The environment consists of a single office room serving a speficic function (e.g. room with individual work spaces/cubicles, conference room, pantry) as well as the amount of daylight entering the rooms through window blinds)._
 
 * _Boundary conditions: fixed (office enclosed by walls)_
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_ 
-..+ _amount of reflected daylight_
-..+ _room temperature (assuming _
+..* _amount of reflected daylight_
+..* _room temperature (assuming _
 
 
 ```python
