@@ -1,6 +1,6 @@
-# Model Proposal for _[Project Name]_
+# Model Proposal for _[Smart Lighting]_
 
-_Your Name_
+_Lixi Liu_
 
 * Course ID: CMPLXSYS 530,
 * Course Title: Computer Modeling of Complex Systems
