@@ -2,3 +2,5 @@
 **Computer Model**
 
 Winter (Jan-Mar) 2018, Instructor: Lynette Shaw
+
+By Lixi Liu
