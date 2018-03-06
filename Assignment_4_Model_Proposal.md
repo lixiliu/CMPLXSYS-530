@@ -11,12 +11,12 @@ _Lixi Liu_
 ### Goal 
 *****
  
-_With increasing energy efficiency and smart features that can adapt to occupants' perferences and communicate with other appliances, smart lighting can improve the quality of modern life while reducing energy use and carbon footprint. This study explores how smart lighting sensors interact with Heating Ventilation and Air Conditioning (HVAC) control to maximize occupancy comfort and builing energy savings._
+_With increasing energy efficiency and smart features that can adapt to occupants' preferences and communicate with other appliances, smart lighting can improve the quality of modern life while reducing energy consumption and cost. This study explores how smart lighting sensors interact with Heating Ventilation and Air Conditioning (HVAC) control to maximize occupancy comfort and builing energy savings._
 
 &nbsp;  
 ### Justification
 ****
-_Agent-based modeling is useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort in that it provides model customizability and can reveal how well smart sensors manipulate room conditions to meet occupants' comfort level according to their control. Understanding these governing interactions between occupants, sensors, and the built environment can maximize the value of smart sensor implementation in buildings to reduce energy use and cost while enhancing ergomonic comfort._
+_Agent-based modeling is useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort in that it provides model customizability and can reveal how well smart sensors manipulate room conditions to meet occupants' comfort level according to their control. Understanding these governing interactions between occupants, sensors, and the built environment can maximize the value of smart sensor implementation in buildings to reduce energy use and cost while enhancing ergonomic comfort._
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
