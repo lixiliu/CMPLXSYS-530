@@ -38,30 +38,41 @@ _The environment consists of a single office room serving a speficic function (e
 * _Boundary conditions: fixed (enclosed by walls)_
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
-  + _harvested lux [lux = lumen/sq m] (amount of daylight entering the room through controllable window blinds)_
-  + _lamp lux [lux] (from overhead lamps)_
-  + _total lux [lux] (total in-door brightness from overhead lamps and harvested daylight)_
-  + _room temperature [deg F](assume uniform and steady-state)_
+  + _current harvested lux [lux = lumen/sq m] (amount of daylight entering the room through controllable window blinds)_
+  + _previous harvested lux [lux]
+  + _current lamp lux [lux] (from overhead lamps)_
+  + _previous lamp lux [lux]
+  + _current total lux [lux] (total in-door brightness from overhead lamps and harvested daylight)_
+  + _previous total lux [lux]
+  + _current room temperature [deg F] (assume spatially uniform)_
+  + _previous room temperature [def F]_
 * _List of environment-owned methods/procedures:_
-  + _update lux (based on current indoor state, outdoor conditions, and sensor inputs)_
-  + _update room temp (based on current indoor state, outdoor conditions, and sensor inputs)_
+  + _update lux (based on previous indoor state, outdoor conditions, and sensor inputs)_
+  + _update room temp (based on previous indoor state, outdoor conditions, and sensor inputs)_
 
 
 ```python
 ### Pseudocode ###
 def initialize_room():
-  length = 15 # x[m] includes some space outside of office
-  width = 10 # y[m] includes some space outside of office
+  gridlen = 15 # x[m] includes some space outside of office
+  gridwid = 10 # y[m] includes some space outside of office
+  roomX = range(1,13) # x = 12[m] office length
+  roomY = range(1,9) # y = 8[m] office width
   
-  #set walls for an office of size 12m by 8m
+  #set walls for office
   #set windows
   #set door
-  for x in range(12):
-    for y in range(8):
-      Harvested_lux = 0 # blinds closed, no harvest
-      Lamp_lux = 750 #[lux]
-      Total_Lux = Harvested_lux
-
+  for x in roomX:
+    for y in roomY:
+      Cur_harv_lux = 0 # blinds closed, no harvest
+      Cur_lamp_lux = 750 #
+      Cur_total_lux = Harvested_lux
+      Cur_room_temp = 70 # [deg F]
+  Pre_harv_lux = Cur_harv_lux
+  Pre_lamp_lux = Cur_harv_lux
+  Pre_total_lux = Cur_harv_lux
+  Pre_room_temp = Cur_room_temp
+  
 def Update_lux():
 
 def Update_room_temp():
@@ -77,13 +88,14 @@ def Update_room_temp():
   + _schedule (e.g. when to enter and leave room)_
   + _brightness preference_
   + _thermal preference_ 
-  + _comfort level (preference satisfaction, equally weighted between brightness and temperature)_
-  + _previous position_
+  + _discomfort level (preference satisfaction, equally weighted between brightness and temperature)_
   + _current position_
+  + _previous position_
 * _List of occupant-owned methods/procedures:_
   + _enter room_
   + _exit room_
   + _move (with some probability of being still, e.g. sitting at a meeting, working at a desk)_
+  + _check discomfort_
 
 _The second type of agents is **sensors**, which include: motion sensors, daylight controllers, dimmers and HVAC controller._
 1. _**Motion sensors** turn lights on based on occupants' movement and keep them on for some time after the last detected movement. Motion sensors are best for high-motion, low traffic rooms such as restrooms or pantry._
@@ -116,18 +128,20 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
 ### Psudocode ###
 from random import randint
 # Define Agent Variables
-def Initialize_agents:
+def Initialize_agents():
+  Population = 4
   Occupants = {}
   Schedule = {}
-  Cur_Position = {}
-  For i in range(4):
-    Occupants[i] = [randint(500,1200),randint(60,78),0] # [brightness pref(lux), thermal pref(deg F), comfort level]
+  Cur_position = {}
+  Discomfort = {}
+  For i in range(Population):
+    Occupants[i] = [randint(500,1200),randint(60,78)] # [brightness pref(lux), thermal pref(deg F)]
     Schedule[i] = [randint(0,10), randint(300,1200)] # [enter time, time to begin leaving room]
     Cur_Position[i] = [0,5,90] # [x,y,orientation] (e.g. at entrance of door)
-  Pre_Position = Cur_Position
+  Pre_position = Cur_position
     
   Sensors = {
-  'MoS':[0,0] #[motion-detected,timer]
+  'MoS':[0,0] #[Motion-detected,Timer]
   'DLC':[...]
   'Dim':[...]
   'HVAC':[...]
@@ -140,28 +154,39 @@ Pre_Position = Cur_Position
     if time == Schedule[i][0]: # Enter_room
       Cur_Position[i][0] += 1
     elif time > Schedule[i][1]: # Exist_room
-      begin head out room
+      # begin head out room
     else: # Random_Walk
       if Cur_Position[i][0] == x-boundary or Cur_Position[i][1] == y-boundary:
-        turn around and walk
+        # turn around and walk
       else:
         if randint(0,1) > 0:
-          random_walk
+          # random_walk
 
-def Check_motion(Cur_Position, Pre_Position, Sensors):
+def Check_discomfort(Occupants,Cur_position, Total_lux,Room_temp):
+  for i in Occupants:
+    for x in RoomX:
+      for y in RoomY:
+        if Cur_position[i][0] == x and Cur_position[i][1] == y:
+          Discomfort[i].append = 0.5*abs(Total_lux-Occupants[i][0])+0.5*(Room_temp-Occupants[i][1])
+
+def Check_motion(Cur_position, Pre_position, Sensors):
   for i in Cur_Position:
-    if Cur_Position[0]-Prev_Position[0] > 0 or Cur_Position[1]-Prev_Position[1] > 0:
-      motion_detected = 1
+    if Cur_position[0]-Prev_position[0] > 0 or Cur_position[1]-Prev_position[1] > 0:
+      Motion_detected = 1
       Turn_lights_on
-  if motion_detected > 0 and timer < 600:
-    timer += 1
+  if Motion_detected > 0 and Timer < 600:
+    Timer += 1
   else:
     Turn_lights_off
     
 def Turn_lights_on(Sensors):
   
 
-def Turn_lights_off
+def Turn_lights_off(Sensors):
+
+def Adjust_blinds():
+  if 
+
 ```
 
 &nbsp; 
