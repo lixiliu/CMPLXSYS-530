@@ -16,7 +16,7 @@ _With increasing energy efficiency and smart features that can adapt to occupant
 &nbsp;  
 ### Justification
 ****
-_Agent-based modeling is useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort in that it can reveal how well smart sensors manipulate room conditions to meet occupants' comfort level according to their control. Understanding these governing interactions between occupants, sensors, and the built environment can maximize the value of smart sensor implementation in buildings to reduce energy use and cost while enhancing ergomonic comfort._
+_Agent-based modeling is useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort in that it provides model customizability and can reveal how well smart sensors manipulate room conditions to meet occupants' comfort level according to their control. Understanding these governing interactions between occupants, sensors, and the built environment can maximize the value of smart sensor implementation in buildings to reduce energy use and cost while enhancing ergomonic comfort._
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
@@ -36,18 +36,17 @@ _The environment consists of a single office room serving a speficic function (e
 * _Boundary conditions: fixed (enclosed by walls)_
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
-..._Current states:_
   + _current harvested lux [lux = lumen/sq m] (amount of daylight entering the room through controllable window blinds)_
   + _current lamp lux (from overhead lamps)_
   + _current total lux (total in-door brightness from overhead lamps and harvested daylight)_
   + _current room temperature [deg F]_
-..._Previous states: (for updating)_
   + _previous harvested lux_
   + _previous lamp lux_
   + _previous total lux_
   + _previous room temperature [def F]_
   + _Light energy [kWh]_
   + _HVAC energy [kWh]_
+  
 * _List of environment-owned methods/procedures:_
   + _update lux (embedded within agent-specific procedures)_
   + _update room temp (based on previous indoor states, outdoor conditions, and sensor inputs)_
