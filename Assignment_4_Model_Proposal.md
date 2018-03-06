@@ -39,11 +39,12 @@ _The environment consists of a single office room serving a speficic function (e
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
   + _reflected daylight (amount of daylight entering the room through controllable window blinds)_
-  + _luminous level (total brightness from overhead lamps and reflected daylight)_
-  + _room temperature (assume uniform)_
+  + _light level (from overhead lamps)_
+  + _total lumen level (total in-door brightness from overhead lamps and reflected daylight)_
+  + _room temperature (assume uniform and steady-state)_
 * _List of environment-owned methods/procedures:_
-  + _adjust dimming_
-  + _adjust temperature_
+  + _update luminous level (based on current state and sensor inputs)_
+  + _update room temperture (based on current state and sensor inputs)_
 
 
 ```python
@@ -56,29 +57,41 @@ def Room():
 
 ### 2) Agents
  
- _There are two main types of agents. The first type is **occupants** (workers) in the building, each with a specific work schedule and preference for luminous level._ 
+ _There are two main types of agents. The first type is **occupants** in the building, each with a specific schedule, preferences, and comfort level._ 
 * _List of occupant-owned variables:_
   + _schedule (e.g. when to enter and leave room)_
   + _brightness preference_
   + _thermal preference_ 
-  + _satisfaction level (of room condition relative to preference, equally weighted between brightness and temperature)_
+  + _comfort level (preference satisfaction, equally weighted between brightness and temperature)_
 * _List of occupant-owned methods/procedures:_
   + _enter room_
   + _leave room_
   + _move (with some probability of being still, e.g. sitting at a meeting, working at a desk)_
 
-_The second type is **sensors**, which include: motion sensors, daylight sensors, and HVAC sensors._
-1. **Motion sensors** turn lights on based on occupants' movement and keep them on for some time after the last detected movement. Motion sensors are best for high-motion, low traffic rooms such as restrooms or pantry.
+_The second type of agents is **sensors**, which include: motion sensors, daylight controllers, dimmers and HVAC controller._
+1. _**Motion sensors** turn lights on based on occupants' movement and keep them on for some time after the last detected movement. Motion sensors are best for high-motion, low traffic rooms such as restrooms or pantry._
 * _List of motion sensor-owned variables:_
-  + _motion-detected? (binary)_
+  + _motion detected? (binary)_
   + _timer (number of time steps since the last detected motion)_
 * _List of motion sensor-owned methods/procedures:_
   + _turn on/off_
 
-_The third type adjust the indoor light level based on the daylight feedback and the occupants’ specified preference._
-* _List of sensor-owned variables:__
-* _List of sensor-owned methods/procedures: adjust_brightness_
+2. _**Daylight controllers** control how much sunlight enters the room by adjusting the window blinds._
+* _List of daylight sensor-owned variables:_
+  + 
+* _List of daylight sensor-owned methods/procedures: 
+  + _adjust blinds (% daylight harvested)_
 
+3. _**Dimmers** instaneously adjust the indoor light level based on the daylight sensor input and the desired indoor lumen level._
+* _List of sensor-owned variables:_
+* _List of sensor-owned methods/procedures:
+  + _adjust light level_
+
+4. _**HVAC controller** controls the room temperature based on the daylight sensor input the desired indoor temperature._
+* _List of sensor-owned variables:_
+  + __
+* _List of sensor-owned methods/procedures: adjust_brightness_
+  + __
 
 ```python
 # Include first pass of the code you are thinking of using to construct your agents
@@ -107,8 +120,11 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 ### 4) Model Parameters and Initialization
 
 _Global parameters include:_
-* _time - the length of a typical work day discretized into 5-min intervals._
-* _daylight - hourly solar insolation relative to time (obtained from NREL databsed)._
+* _time - second-level time step._
+* _outdoor daylight - hourly solar insolation relative to time (based on external sources)._
+* _outdoor temperature - hourly relative to time (will be used to determine HVAC load)_
+* _desired indoor lumen level (average of all occupants' preferences)._
+* _desired indoor temperature (average of all occupants' preferences)._
 
 _Describe how your model will be initialized_
 
@@ -118,7 +134,11 @@ _Provide a high level, step-by-step description of your schedule during each "ti
 
 ### 5) Assessment and Outcome Measures
 
-_What quantitative metrics and/or qualitative features will you use to assess your model outcomes?_
+_The quantitative metrics of interest in the model are:_
+* _Total energy use for light and HVAC_
+* _Occupants' comfort level_
+
+_The qualitative features will you use to assess your model outcomes?_
 
 &nbsp; 
 
