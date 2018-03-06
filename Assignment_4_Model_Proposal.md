@@ -6,8 +6,6 @@ _Lixi Liu_
 * Course Title: Computer Modeling of Complex Systems
 * Term: Winter, 2018
 
-
-
 &nbsp; 
 
 ### Goal 
@@ -39,16 +37,19 @@ _The environment consists of a single office room serving a speficic function (e
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
   + _current harvested lux [lux = lumen/sq m] (amount of daylight entering the room through controllable window blinds)_
-  + _previous harvested lux [lux]
+  + _previous harvested lux [lux]_
   + _current lamp lux [lux] (from overhead lamps)_
-  + _previous lamp lux [lux]
+  + _previous lamp lux [lux]_
   + _current total lux [lux] (total in-door brightness from overhead lamps and harvested daylight)_
-  + _previous total lux [lux]
-  + _current room temperature [deg F] (assume spatially uniform)_
+  + _previous total lux [lux]_
+  + _current room temperature [deg F]_
   + _previous room temperature [def F]_
+  + _Light energy [kWh]_
+  + _HVAC energy [kWh]_
 * _List of environment-owned methods/procedures:_
-  + _update lux (based on previous indoor state, outdoor conditions, and sensor inputs)_
-  + _update room temp (based on previous indoor state, outdoor conditions, and sensor inputs)_
+  + _update lux (based on previous indoor states, outdoor conditions, and sensor inputs)_
+  + _update room temp (based on previous indoor states, outdoor conditions, and sensor inputs)_
+  + _calculate energy (after update to indoor states)_
 
 
 ```python
@@ -56,8 +57,8 @@ _The environment consists of a single office room serving a speficic function (e
 def initialize_room():
   gridlen = 15 # x[m] includes some space outside of office
   gridwid = 10 # y[m] includes some space outside of office
-  roomX = range(1,13) # x = 12[m] office length
-  roomY = range(1,9) # y = 8[m] office width
+  RoomX = range(1,13) # x = 12[m] office length
+  RoomY = range(1,9) # y = 8[m] office width
   
   #set walls for office
   #set windows
@@ -65,17 +66,25 @@ def initialize_room():
   for x in roomX:
     for y in roomY:
       Cur_harv_lux = 0 # blinds closed, no harvest
-      Cur_lamp_lux = 750 #
-      Cur_total_lux = Harvested_lux
+      Cur_lamp_lux = 0 #
+      Cur_total_lux = Cur_harv_lux + Cur_lamp_lux
       Cur_room_temp = 70 # [deg F]
   Pre_harv_lux = Cur_harv_lux
   Pre_lamp_lux = Cur_harv_lux
   Pre_total_lux = Cur_harv_lux
   Pre_room_temp = Cur_room_temp
   
+  Light_energy = [0]
+  HVAC_energy = [0]
+  
 def Update_lux():
 
-def Update_room_temp():
+def Update_room_temp(Pre_room_temp,Outdoor_temp,Sensors):
+
+
+def calc_energy():
+  Light_energy.append = f(lamp_efficacy,lamp_distribution,Cur_lamp_lux)
+  HVAC_energy.append = AC_load*Sensors['HVAC'][2] 
 ```
 
 &nbsp; 
@@ -104,7 +113,8 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
   + _timer (number of time steps since the last detected motion)_
 * _List of motion sensor-owned methods/procedures:_
   + _check motion_
-  + _turn lights on/off_
+  + _turn lights on_
+  + _turn lights off_
 
 2. _**Daylight controllers** control how much sunlight enters the room by adjusting the window blinds._
 * _List of daylight sensor-owned variables:_
@@ -112,17 +122,13 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
 * _List of daylight sensor-owned methods/procedures:_ 
   + _adjust blinds (% daylight harvested)_
 
-3. _**Dimmers** instaneously adjust the indoor light level based on the daylight sensor input and the desired indoor lumen level._
-* _List of dimmer-owned variables:_
-  + _None_
-* _List of dimmer-owned methods/procedures:_
-  + _check and adjust light level_
+3. _**Dimmers** instaneously adjust the indoor light level based on the daylight sensor input and the desired indoor lumen level. The dimming is embedded within the motion sensor-owned procedures._
 
-4. _**HVAC controller** controls the room temperature based on the daylight sensor input the desired indoor temperature._
+4. _**HVAC controller** controls the room temperature based on the daylight sensor input and the desired indoor temperature. In a cooling mode, when the room temperature rises above a thermostat threshold, the ventilation or AC system would kick in to cool the room until the temperature falls below another thermostat threshold, after which point, the room could heat up again with time and the cycle perpectuates until either the thermostat is turned off or the room temperature ceases to fluctuate beyond the thermostat threholds._
 * _List of HVAC controller-owned variables:_
-  + _None_
+  + _AC on (binary)_
 * _List of HVAC controller-owned methods/procedures:_
-  + _check and adjust temperature_
+  + _check HVAC_
 
 ```python
 ### Psudocode ###
@@ -138,27 +144,29 @@ def Initialize_agents():
     Occupants[i] = [randint(500,1200),randint(60,78)] # [brightness pref(lux), thermal pref(deg F)]
     Schedule[i] = [randint(0,10), randint(300,1200)] # [enter time, time to begin leaving room]
     Cur_Position[i] = [0,5,90] # [x,y,orientation] (e.g. at entrance of door)
+    Discomfort[i] = 0
   Pre_position = Cur_position
     
   Sensors = {
   'MoS':[0,0] #[Motion-detected,Timer]
   'DLC':[...]
   'Dim':[...]
-  'HVAC':[...]
+  'HVAC':[1,8, 0] #[loc-x, loc-y, AC-on]
   }
 
 # Define Agent Procedures
 def Movement(Schedule):
-Pre_Position = Cur_Position
+Pre_position = Cur_position
   for i in Schedule:
     if time == Schedule[i][0]: # Enter_room
-      Cur_Position[i][0] += 1
+      Cur_position[i][0] += 1
     elif time > Schedule[i][1]: # Exist_room
       # begin head out room
-    else: # Random_Walk
-      if Cur_Position[i][0] == x-boundary or Cur_Position[i][1] == y-boundary:
-        # turn around and walk
-      else:
+    else: # Random_Walk within fixed boundary
+      if Cur_position[i][0] == RoomX[0] or Cur_position[i][0] == RoomX[len(RoomX)-1]...
+      Cur_position[i][1] == RoomY[0] or Cur_position[i][1] == RoomX[len(RoomY)-1]:
+        # turn around 180 and walk
+      elif :
         if randint(0,1) > 0:
           # random_walk
 
@@ -167,26 +175,42 @@ def Check_discomfort(Occupants,Cur_position, Total_lux,Room_temp):
     for x in RoomX:
       for y in RoomY:
         if Cur_position[i][0] == x and Cur_position[i][1] == y:
-          Discomfort[i].append = 0.5*abs(Total_lux-Occupants[i][0])+0.5*(Room_temp-Occupants[i][1])
+          Discomfort[i].append = 0.5*abs(Total_lux-Occupants[i][0])/Occupants[i][0]...
+          +0.5*(Room_temp-Occupants[i][1])/Occupants[i][1]
 
-def Check_motion(Cur_position, Pre_position, Sensors):
+def Check_motion(Pre_position,Sensors):
   for i in Cur_Position:
-    if Cur_position[0]-Prev_position[0] > 0 or Cur_position[1]-Prev_position[1] > 0:
+    if Cur_position Cur_position[0]-Prev_position[0] > 0 or Cur_position[1]-Prev_position[1] > 0:
       Motion_detected = 1
-      Turn_lights_on
   if Motion_detected > 0 and Timer < 600:
     Timer += 1
+    Adjust_blinds
+    Turn_lights_on
   else:
     Turn_lights_off
     
-def Turn_lights_on(Sensors):
-  
+def Adjust_blinds(RoomX,RoomY,Pre_total_lux,Desired_lux,Outdoor_lux):
+  for x in RoomX:
+    for y in RoomY:
+      Cur_harv_lux = min(max(Desired_lux - Pre_total_lux,0),Outdoor_lux)    
+      
+def Turn_lights_on(RoomX,RoomY,Cur_harv_lux,Desired_lux,Max_lamp_lux): # includes dimming
+  for x in RoomX:
+    for y in RoomY:
+      Cur_lamp_lux = min(max(Desired_lux - Cur_harv_lux,0),Max_lamp_lux)
+      Cur_total_lux = Cur_harv_lux + Cur_lamp_lux
 
-def Turn_lights_off(Sensors):
+def Turn_lights_off(RoomX,RoomY,Cur_harv_lux):
+  for x in RoomX:
+    for y in RoomY:
+      Cur_lamp_lux = 0
+      Cur_total_lux = Cur_harv_lux + Cur_lamp_lux
 
-def Adjust_blinds():
-  if 
-
+def Check_HVAC(Sensors,Pre_room_temp):
+  Therm_x = Sensors['HVAC'][0]
+  Therm_y = Sensors['HVAC'][1]
+  if Pre_room_temp(Therm_x,Therm_y) > Desired_temp:
+    AC-on = 1
 ```
 
 &nbsp; 
@@ -210,10 +234,16 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 
 _Global parameters include:_
 * _time - [sec]_
-* _outdoor daylight - [lux] hourly solar insolation relative to time (based on external sources)._
-* _outdoor temperature - [deg F] hourly relative to time (will be used to determine HVAC load)_
-* _desired indoor lumen level [lux] (average of all occupants' preferences)._
-* _desired indoor temperature [deg F] (average of all occupants' preferences)._
+* _outdoor lux - [lux] hourly solar insolation relative to time (based on external sources)._
+* _outdoor temp - [deg F] hourly temperature relative to time (will be used to determine HVAC load)_
+* _desired lux - [lux] desired indoor luminous level = average of all occupants' brightness preferences._
+* _desired temp - [deg F] desired indoor temperature = average of all occupants' thermal preferences._
+
+_Agent-specific parameters include:_
+* _max lamp lux - [lux] maximum lumen output of overhead lamps._
+* _lamp_efficacy - [lm/W] amount of lumen output per W of power consumed._
+* _thermostat location (shown in Sensors dictionary)_
+* _AC load_
 
 _Describe how your model will be initialized_
 
@@ -234,5 +264,5 @@ _The qualitative features will you use to assess your model outcomes?_
 ### 6) Parameter Sweep
 
 _The parameters intended to be swept through are as follows along with their respective value ranges:_
-* _desired indoor lumen level: []_
-* _desired indoor temperature: [65,75]_
+* _desired lux [lux]: [500,1000]_
+* _desired temp [deg F]: [65,75]_
