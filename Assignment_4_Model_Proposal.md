@@ -38,19 +38,33 @@ _The environment consists of a single office room serving a speficic function (e
 * _Boundary conditions: fixed (enclosed by walls)_
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
-  + _harvested daylight (amount of daylight entering the room through controllable window blinds)_
-  + _light level (from overhead lamps)_
-  + _total lumen level (total in-door brightness from overhead lamps and harvested daylight)_
-  + _room temperature (assume uniform and steady-state)_
+  + _harvested lux [lux = lumen/sq m] (amount of daylight entering the room through controllable window blinds)_
+  + _lamp lux [lux] (from overhead lamps)_
+  + _total lux [lux] (total in-door brightness from overhead lamps and harvested daylight)_
+  + _room temperature [deg F](assume uniform and steady-state)_
 * _List of environment-owned methods/procedures:_
-  + _update luminous level (based on current indoor state, outdoor conditions, and sensor inputs)_
-  + _update room temperture (based on current indoor state, outdoor conditions, and sensor inputs)_
+  + _update lux (based on current indoor state, outdoor conditions, and sensor inputs)_
+  + _update room temp (based on current indoor state, outdoor conditions, and sensor inputs)_
 
 
 ```python
-# Pseudocode:
-# def Room():
+### Pseudocode ###
+def initialize_room():
+  length = 15 # x[m] includes some space outside of office
+  width = 10 # y[m] includes some space outside of office
+  
+  #set walls for an office of size 12m by 8m
+  #set windows
+  #set door
+  for x in range(12):
+    for y in range(8):
+      Harvested_lux = 0 # blinds closed, no harvest
+      Lamp_lux = 750 #[lux]
+      Total_Lux = Harvested_lux
 
+def Update_lux():
+
+def Update_room_temp():
 ```
 
 &nbsp; 
@@ -106,14 +120,14 @@ def Initialize_agents:
   Occupants = {}
   Schedule = {}
   Cur_Position = {}
-  For i in range(10):
-    Occupants[i] = [randint(50,60),randint(60,78),0] # [brightness pref, thermal pref, comfort level]
+  For i in range(4):
+    Occupants[i] = [randint(500,1200),randint(60,78),0] # [brightness pref(lux), thermal pref(deg F), comfort level]
     Schedule[i] = [randint(0,10), randint(300,1200)] # [enter time, time to begin leaving room]
-    Cur_Position[i] = [0,20,90] # (e.g. at entrance of door)
+    Cur_Position[i] = [0,5,90] # [x,y,orientation] (e.g. at entrance of door)
   Pre_Position = Cur_Position
     
   Sensors = {
-  'MoS':[...]
+  'MoS':[0,0] #[motion-detected,timer]
   'DLC':[...]
   'Dim':[...]
   'HVAC':[...]
@@ -134,17 +148,20 @@ Pre_Position = Cur_Position
         if randint(0,1) > 0:
           random_walk
 
-
-      
-  
-    
-Occupants
-def Check_motion(Occupants, Sensors):
-  if Occupants[Current_Position] - Occupants[Previous_Position] > 0:
-    motion_detected = 1
-    turn lights on
+def Check_motion(Cur_Position, Pre_Position, Sensors):
+  for i in Cur_Position:
+    if Cur_Position[0]-Prev_Position[0] > 0 or Cur_Position[1]-Prev_Position[1] > 0:
+      motion_detected = 1
+      Turn_lights_on
   if motion_detected > 0 and timer < 600:
     timer += 1
+  else:
+    Turn_lights_off
+    
+def Turn_lights_on(Sensors):
+  
+
+def Turn_lights_off
 ```
 
 &nbsp; 
@@ -167,11 +184,11 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 ### 4) Model Parameters and Initialization
 
 _Global parameters include:_
-* _time - time step in seconds._
-* _outdoor daylight - hourly solar insolation relative to time (based on external sources)._
-* _outdoor temperature - hourly relative to time (will be used to determine HVAC load)_
-* _desired indoor lumen level (average of all occupants' preferences)._
-* _desired indoor temperature (average of all occupants' preferences)._
+* _time - [sec]_
+* _outdoor daylight - [lux] hourly solar insolation relative to time (based on external sources)._
+* _outdoor temperature - [deg F] hourly relative to time (will be used to determine HVAC load)_
+* _desired indoor lumen level [lux] (average of all occupants' preferences)._
+* _desired indoor temperature [deg F] (average of all occupants' preferences)._
 
 _Describe how your model will be initialized_
 
@@ -191,5 +208,6 @@ _The qualitative features will you use to assess your model outcomes?_
 
 ### 6) Parameter Sweep
 
-_What parameters are you most interested in sweeping through? What value ranges do you expect to look at for your analysis?_
-
+_The parameters intended to be swept through are as follows along with their respective value ranges:_
+* _desired indoor lumen level: []_
+* _desired indoor temperature: [65,75]_
