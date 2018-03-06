@@ -36,13 +36,15 @@ _The environment consists of a single office room serving a speficic function (e
 * _Boundary conditions: fixed (enclosed by walls)_
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
+..._Current states:_
   + _current harvested lux [lux = lumen/sq m] (amount of daylight entering the room through controllable window blinds)_
-  + _previous harvested lux_
   + _current lamp lux (from overhead lamps)_
-  + _previous lamp lux_
   + _current total lux (total in-door brightness from overhead lamps and harvested daylight)_
-  + _previous total lux_
   + _current room temperature [deg F]_
+..._Previous states: (for updating)_
+  + _previous harvested lux_
+  + _previous lamp lux_
+  + _previous total lux_
   + _previous room temperature [def F]_
   + _Light energy [kWh]_
   + _HVAC energy [kWh]_
