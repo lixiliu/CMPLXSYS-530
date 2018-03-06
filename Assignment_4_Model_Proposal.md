@@ -49,7 +49,7 @@ _The environment consists of a single office room serving a speficic function (e
 
 ```python
 # Pseudocode:
-def Room():
+# def Room():
 
 ```
 
@@ -59,10 +59,13 @@ def Room():
  
  _There are two main types of agents. The first type is **occupants** in the building, each with a specific schedule, preferences, and comfort level._ 
 * _List of occupant-owned variables:_
+  + _ID
   + _schedule (e.g. when to enter and leave room)_
   + _brightness preference_
   + _thermal preference_ 
   + _comfort level (preference satisfaction, equally weighted between brightness and temperature)_
+  + _previous position_
+  + _current position_
 * _List of occupant-owned methods/procedures:_
   + _enter room_
   + _leave room_
@@ -74,31 +77,55 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
   + _motion detected? (binary)_
   + _timer (number of time steps since the last detected motion)_
 * _List of motion sensor-owned methods/procedures:_
+  + _check motion_
   + _turn lights on/off_
 
 2. _**Daylight controllers** control how much sunlight enters the room by adjusting the window blinds._
 * _List of daylight sensor-owned variables:_
   + _None_
-* _List of daylight sensor-owned methods/procedures: 
+* _List of daylight sensor-owned methods/procedures:_ 
   + _adjust blinds (% daylight harvested)_
 
 3. _**Dimmers** instaneously adjust the indoor light level based on the daylight sensor input and the desired indoor lumen level._
 * _List of dimmer-owned variables:_
   + _None_
-* _List of dimmer-owned methods/procedures:
+* _List of dimmer-owned methods/procedures:_
   + _check and adjust light level_
 
 4. _**HVAC controller** controls the room temperature based on the daylight sensor input the desired indoor temperature._
 * _List of HVAC controller-owned variables:_
   + _None_
-* _List of HVAC controller-owned methods/procedures:
+* _List of HVAC controller-owned methods/procedures:_
   + _check and adjust temperature_
 
 ```python
-# Include first pass of the code you are thinking of using to construct your agents
-# This may be a set of "turtle-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
-# Feel free to include any agent methods/procedures you have so far. Filling in with pseudocode is ok! 
-# NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
+# def Init_agents:
+  Occupants = {}
+  Schedule = {}
+  Cur_Position = {}
+  For i in range(10):
+    Occupants[i+1] = [rand(50,60),rand(60,78),0] # [brightness pref, thermal pref, comfort level]
+    Schedule[i+1] = [rand(0,10), rand(300,1200)] # [enter time, leave time]
+    Cur_Position[i+1] = [0,0] # (e.g. entrance of door)
+  Pre_Position = Cur_Position
+    
+  Sensors = {
+  'MoS':[...]
+  'DLC':[...]
+  'Dim':[...]
+  'HVAC':[...]
+  }
+    
+# def Enter_room(Schedule):
+  for i in Schedule:
+    if time == 
+Occupants
+# def Check_motion(Occupants, Sensors):
+  if Occupants[Current_Position] - Occupants[Previous_Position] > 0:
+    motion_detected? = 1
+    turn lights on
+  if motion_detected? > 0 and timer < 600:
+    timer += 1
 ```
 
 &nbsp; 
@@ -121,7 +148,7 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 ### 4) Model Parameters and Initialization
 
 _Global parameters include:_
-* _time - second-level time step._
+* _time - time step in seconds._
 * _outdoor daylight - hourly solar insolation relative to time (based on external sources)._
 * _outdoor temperature - hourly relative to time (will be used to determine HVAC load)_
 * _desired indoor lumen level (average of all occupants' preferences)._
