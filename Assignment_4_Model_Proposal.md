@@ -68,13 +68,13 @@ _The environment consists of a single office room serving a speficic function (e
   + _current position_
 * _List of occupant-owned methods/procedures:_
   + _enter room_
-  + _leave room_
+  + _exit room_
   + _move (with some probability of being still, e.g. sitting at a meeting, working at a desk)_
 
 _The second type of agents is **sensors**, which include: motion sensors, daylight controllers, dimmers and HVAC controller._
 1. _**Motion sensors** turn lights on based on occupants' movement and keep them on for some time after the last detected movement. Motion sensors are best for high-motion, low traffic rooms such as restrooms or pantry._
 * _List of motion sensor-owned variables:_
-  + _motion detected? (binary)_
+  + _motion detected (binary)_
   + _timer (number of time steps since the last detected motion)_
 * _List of motion sensor-owned methods/procedures:_
   + _check motion_
@@ -99,14 +99,17 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
   + _check and adjust temperature_
 
 ```python
-# def Init_agents:
+### Psudocode ###
+from random import randint
+# Define Agent Variables
+def Initialize_agents:
   Occupants = {}
   Schedule = {}
   Cur_Position = {}
   For i in range(10):
-    Occupants[i+1] = [rand(50,60),rand(60,78),0] # [brightness pref, thermal pref, comfort level]
-    Schedule[i+1] = [rand(0,10), rand(300,1200)] # [enter time, leave time]
-    Cur_Position[i+1] = [0,0] # (e.g. entrance of door)
+    Occupants[i] = [randint(50,60),randint(60,78),0] # [brightness pref, thermal pref, comfort level]
+    Schedule[i] = [randint(0,10), randint(300,1200)] # [enter time, time to begin leaving room]
+    Cur_Position[i] = [0,20,90] # (e.g. at entrance of door)
   Pre_Position = Cur_Position
     
   Sensors = {
@@ -115,16 +118,32 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
   'Dim':[...]
   'HVAC':[...]
   }
-    
-# def Enter_room(Schedule):
+
+# Define Agent Procedures
+def Movement(Schedule):
+Pre_Position = Cur_Position
   for i in Schedule:
-    if time == 
+    if time == Schedule[i][0]: # Enter_room
+      Cur_Position[i][0] += 1
+    elif time > Schedule[i][1]: # Exist_room
+      begin head out room
+    else: # Random_Walk
+      if Cur_Position[i][0] == x-boundary or Cur_Position[i][1] == y-boundary:
+        turn around and walk
+      else:
+        if randint(0,1) > 0:
+          random_walk
+
+
+      
+  
+    
 Occupants
-# def Check_motion(Occupants, Sensors):
+def Check_motion(Occupants, Sensors):
   if Occupants[Current_Position] - Occupants[Previous_Position] > 0:
-    motion_detected? = 1
+    motion_detected = 1
     turn lights on
-  if motion_detected? > 0 and timer < 600:
+  if motion_detected > 0 and timer < 600:
     timer += 1
 ```
 
