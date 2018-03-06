@@ -122,7 +122,7 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
 
 3. _**Dimmers** instaneously adjust the indoor light level based on the daylight sensor input and the desired indoor lumen level. The dimming is embedded within the motion sensor-owned procedures._
 
-4. _**HVAC controller** controls the room temperature based on the daylight sensor input and the desired indoor temperature. In a cooling mode, when the room temperature rises above a thermostat threshold, the ventilation or AC system would kick in to cool the room until the temperature falls below another thermostat threshold, after which point, the room could heat up again with time and the cycle perpectuates until either the thermostat is turned off or the room temperature ceases to fluctuate beyond the thermostat threholds._
+4. _**HVAC controller** controls the room temperature based on the daylight sensor input and the desired indoor temperature. In the cooling mode, when the room temperature rises above a thermostat threshold, the ventilation or AC system would kick in to cool the room until the temperature falls below another thermostat threshold, after which point, the room could heat up again with time and the cycle perpectuates until either the thermostat is turned off or the room temperature ceases to fluctuate beyond the thermostat threholds._
 * _List of HVAC controller-owned variables:_
   + _AC on (binary)_
 * _List of HVAC controller-owned methods/procedures:_
