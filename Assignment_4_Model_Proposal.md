@@ -38,13 +38,13 @@ _The environment consists of a single office room serving a speficic function (e
 * _Boundary conditions: fixed (enclosed by walls)_
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
-  + _reflected daylight (amount of daylight entering the room through controllable window blinds)_
+  + _harvested daylight (amount of daylight entering the room through controllable window blinds)_
   + _light level (from overhead lamps)_
-  + _total lumen level (total in-door brightness from overhead lamps and reflected daylight)_
+  + _total lumen level (total in-door brightness from overhead lamps and harvested daylight)_
   + _room temperature (assume uniform and steady-state)_
 * _List of environment-owned methods/procedures:_
-  + _update luminous level (based on current state and sensor inputs)_
-  + _update room temperture (based on current state and sensor inputs)_
+  + _update luminous level (based on current indoor state, outdoor conditions, and sensor inputs)_
+  + _update room temperture (based on current indoor state, outdoor conditions, and sensor inputs)_
 
 
 ```python
@@ -74,24 +74,25 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
   + _motion detected? (binary)_
   + _timer (number of time steps since the last detected motion)_
 * _List of motion sensor-owned methods/procedures:_
-  + _turn on/off_
+  + _turn lights on/off_
 
 2. _**Daylight controllers** control how much sunlight enters the room by adjusting the window blinds._
 * _List of daylight sensor-owned variables:_
-  + 
+  + _None_
 * _List of daylight sensor-owned methods/procedures: 
   + _adjust blinds (% daylight harvested)_
 
 3. _**Dimmers** instaneously adjust the indoor light level based on the daylight sensor input and the desired indoor lumen level._
-* _List of sensor-owned variables:_
-* _List of sensor-owned methods/procedures:
-  + _adjust light level_
+* _List of dimmer-owned variables:_
+  + _None_
+* _List of dimmer-owned methods/procedures:
+  + _check and adjust light level_
 
 4. _**HVAC controller** controls the room temperature based on the daylight sensor input the desired indoor temperature._
-* _List of sensor-owned variables:_
-  + __
-* _List of sensor-owned methods/procedures: adjust_brightness_
-  + __
+* _List of HVAC controller-owned variables:_
+  + _None_
+* _List of HVAC controller-owned methods/procedures:
+  + _check and adjust temperature_
 
 ```python
 # Include first pass of the code you are thinking of using to construct your agents
