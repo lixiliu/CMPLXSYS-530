@@ -11,18 +11,18 @@ _Lixi Liu_
 ### Goal 
 *****
  
-_With increasing energy efficiency and smart features that can adapt to occupants' perferences and communicate with other appliances, smart lighting can improve the quality of modern life while reducing energy use and carbon footprint. This study explores whether smart lighting sensors and program can help minimize energy rebound, a common behavioral tendency in which occupants increase consumption post-adoption of more energy-efficient products, thus leading to an erosion of energy savings._
+_With increasing energy efficiency and smart features that can adapt to occupants' perferences and communicate with other appliances, smart lighting can improve the quality of modern life while reducing energy use and carbon footprint. This study explores how smart lighting sensors interact with Heating Ventilation and Air Conditioning (HVAC) control to maximize occupancy comfort and builing energy savings._
 
 &nbsp;  
 ### Justification
 ****
-_Agent-based modeling is used to examine system-level behaviors that are emerging from individual agent-agent and agent-environment interactions. It is thus useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort. An agent-based model can reveal the emergent patterns that arise from how occupants interact with smart sensors and how smart sensors, in turn, affect their lifestyle. Understanding these interactions can enhance the use of energy efficiency and demand response as viable tools for lowering building energy costs and improving the reliability of the power grid._
+_Agent-based modeling is useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort in that it can reveal how well smart sensors manipulate room conditions to meet occupants' comfort level according to their control. Understanding these governing interactions between occupants, sensors, and the built environment can maximize the value of smart sensor implementation in buildings to reduce energy use and cost while enhancing ergomonic comfort._
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
 ****
 
-_This study explores the interactions between occupants and smart sensors: 1) ._
+_This study explores how the interactions 1) among smart sensors and between 2) occupants and sensors affect the system-level energy consumption from lighting and HVAC. The primary focus is on how the daylight controller decides the lighting load reduction potential from daylight harvesting against the added cooling needs from the daylight harvest._
 
 &nbsp; 
 
@@ -126,7 +126,7 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
 * _List of HVAC controller-owned variables:_
   + _AC on (binary)_
 * _List of HVAC controller-owned methods/procedures:_
-  + _check HVAC_
+  + _check temp_
 
 ```python
 ### Psudocode ###
@@ -204,7 +204,7 @@ def Turn_lights_off(RoomX,RoomY,Cur_harv_lux):
       Cur_lamp_lux = 0
       Cur_total_lux = Cur_harv_lux + Cur_lamp_lux
 
-def Check_HVAC(Sensors,Pre_room_temp):
+def Check_temp(Sensors,Pre_room_temp):
   Therm_x = Sensors['HVAC'][0]
   Therm_y = Sensors['HVAC'][1]
   if Pre_room_temp(Therm_x,Therm_y) > Desired_temp:
@@ -235,10 +235,10 @@ _What does an agent, cell, etc. do on a given turn? Provide a step-by-step descr
 ### 4) Model Parameters and Initialization
 
 _Global parameters include:_
-* _time - [sec]_
-* _outdoor lux - [lux] hourly solar insolation relative to time (based on external sources)._
+* _time (time step) - [sec]_
+* _outdoor lux - hourly solar insolation relative to time (based on external sources)._
 * _outdoor temp - [deg F] hourly temperature relative to time (will be used to determine HVAC load)_
-* _desired lux - [lux] desired indoor luminous level = average of all occupants' brightness preferences._
+* _desired lux - desired indoor luminous level = average of all occupants' brightness preferences._
 * _desired temp - [deg F] desired indoor temperature = average of all occupants' thermal preferences._
 
 _Agent-specific parameters include:_
@@ -250,7 +250,7 @@ _Agent-specific parameters include:_
 
 _To initialize model, set time = 0 and run **initialize_room** and **initialize_agents** from code._
 
-_The step function of the model will consist of advancing the time step by 1 and the action sequence described in Section 3.
+_The step function of the model will consist of advancing the time step by 1 and the **action sequence** described in Section 3._
 
 &nbsp; 
 
@@ -265,5 +265,7 @@ _The quantitative metrics of interest in the model are:_
 ### 6) Parameter Sweep
 
 _The parameters intended to be swept through are as follows along with their respective value ranges:_
-* _occupants' random brightness preference [lux]: [500,1000]_
-* _occupants' random temperature preference [deg F]: [65,75]_
+* _occupants' random brightness preference [lux]: [500,1000], which affects the desired lux_
+* _occupants' random temperature preference [deg F]: [65,75], which affects the desired temp_
+
+_Besides parameter sweep, different control strategies (e.g. how the sensors update and how their updates are sequenced) may be explored to better understand the interactions between sensors._
