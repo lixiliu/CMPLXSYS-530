@@ -37,17 +37,17 @@ _The environment consists of a single office room serving a speficic function (e
 * _Dimensionality: 2D_
 * _List of environment-owned variables:_
   + _current harvested lux [lux = lumen/sq m] (amount of daylight entering the room through controllable window blinds)_
-  + _previous harvested lux [lux]_
-  + _current lamp lux [lux] (from overhead lamps)_
-  + _previous lamp lux [lux]_
-  + _current total lux [lux] (total in-door brightness from overhead lamps and harvested daylight)_
-  + _previous total lux [lux]_
+  + _previous harvested lux_
+  + _current lamp lux (from overhead lamps)_
+  + _previous lamp lux_
+  + _current total lux (total in-door brightness from overhead lamps and harvested daylight)_
+  + _previous total lux_
   + _current room temperature [deg F]_
   + _previous room temperature [def F]_
   + _Light energy [kWh]_
   + _HVAC energy [kWh]_
 * _List of environment-owned methods/procedures:_
-  + _update lux (based on previous indoor states, outdoor conditions, and sensor inputs)_
+  + _update lux (embedded within agent-specific procedures)_
   + _update room temp (based on previous indoor states, outdoor conditions, and sensor inputs)_
   + _calculate energy (after update to indoor states)_
 
@@ -77,10 +77,8 @@ def initialize_room():
   Light_energy = [0]
   HVAC_energy = [0]
   
-def Update_lux():
-
-def Update_room_temp(Pre_room_temp,Outdoor_temp,Sensors):
-
+def Update_room_temp():
+  Cur_room_temp = f(Pre_room_temp,Outdoor_temp,insulation,Sensors['HVAC'][2],AC_load]
 
 def calc_energy():
   Light_energy.append = f(lamp_efficacy,lamp_distribution,Cur_lamp_lux)
@@ -93,7 +91,7 @@ def calc_energy():
  
  _There are two main types of agents. The first type is **occupants** in the building, each with a specific schedule, preferences, and comfort level._ 
 * _List of occupant-owned variables:_
-  + _ID
+  + _ID_
   + _schedule (e.g. when to enter and leave room)_
   + _brightness preference_
   + _thermal preference_ 
@@ -219,15 +217,19 @@ def Check_HVAC(Sensors,Pre_room_temp):
  
 **_Interaction Topology_**
 
-_Description of the topology of who interacts with whom in the system. Perfectly mixed? Spatial proximity? Along a network? CA neighborhood?_
+_The interactions within the systems are predominantly sensor-sensor and sensor-environment, although one occupant-sensor interaction exists. The sensor-sensor communications are network-linked and instantaneous. Updating the state of each patch requires information from the sensors. For the temperature state, it may also require information from neighborhood patches to model convection. The interaction between the occupants and the motion sensor is spatial and temporal (currently, it is assumed that the motion sensing range is of the entire room)._
  
 **_Action Sequence_**
 
 _What does an agent, cell, etc. do on a given turn? Provide a step-by-step description of what happens on a given turn for each part of your model_
 
-1. Step 1
-2. Step 2
-3. Etc...
+1. _Occupants move/stay put according to rules and their schedule._
+2. _Motion sensor checks for motion and enables other sensors if motion is detected._
+3. _Daylight controller adjusts blinds._
+4. _Dimmer adjusts light output from lamp._
+5. _HVAC controller checks for room temperature and decides whether to turn on AC._
+6. _Environment calculates light and HVAC energy use._
+7. _Environment updates indoor luminous level and room temperature._
 
 &nbsp; 
 ### 4) Model Parameters and Initialization
@@ -244,10 +246,11 @@ _Agent-specific parameters include:_
 * _lamp_efficacy - [lm/W] amount of lumen output per W of power consumed._
 * _thermostat location (shown in Sensors dictionary)_
 * _AC load_
+* _building insulation_
 
-_Describe how your model will be initialized_
+_To initialize model, set time = 0 and run **initialize_room** and **initialize_agents** from code._
 
-_Provide a high level, step-by-step description of your schedule during each "tick" of the model_
+_The step function of the model will consist of advancing the time step by 1 and the action sequence described in Section 3.
 
 &nbsp; 
 
@@ -257,12 +260,10 @@ _The quantitative metrics of interest in the model are:_
 * _Total energy use for light and HVAC_
 * _Occupants' comfort level_
 
-_The qualitative features will you use to assess your model outcomes?_
-
 &nbsp; 
 
 ### 6) Parameter Sweep
 
 _The parameters intended to be swept through are as follows along with their respective value ranges:_
-* _desired lux [lux]: [500,1000]_
-* _desired temp [deg F]: [65,75]_
+* _occupants' random brightness preference [lux]: [500,1000]_
+* _occupants' random temperature preference [deg F]: [65,75]_
