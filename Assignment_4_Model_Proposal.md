@@ -8,6 +8,13 @@ _Lixi Liu_
 
 &nbsp; 
 
+__*LS COMMENTS:*__
+*This looks like a very good setup overall. Just a few comments and questions included below. Your pseudocode looks pretty close to operable Python code currently, so the main thing right now will be to get everything translated into a model so you can see if you can get something running and start working the bugs out. Good job :)*
+
+
+&nbsp; 
+
+
 ### Goal 
 *****
  
@@ -84,6 +91,11 @@ def Update_room_temp():
 def calc_energy():
   Light_energy.append = f(lamp_efficacy,lamp_distribution,Cur_lamp_lux)
   HVAC_energy.append = AC_load*Sensors['HVAC'][2] 
+  
+  ### LS COMMENTS ###
+  # How you specify these functions is going to be very important to how your model ends up behaving. Do you have any ideas so far on 
+  # what you think they will look like? Is there anything in the literature that could potentially guide you here?
+  
 ```
 
 &nbsp; 
@@ -120,6 +132,7 @@ _The second type of agents is **sensors**, which include: motion sensors, daylig
   + _None_
 * _List of daylight sensor-owned methods/procedures:_ 
   + _adjust blinds (% daylight harvested)_
+
 
 3. _**Dimmers** instaneously adjust the indoor light level based on the daylight sensor input and the desired indoor lumen level. The dimming is embedded within the motion sensor-owned procedures._
 
@@ -211,6 +224,13 @@ def Check_temp(Sensors,Pre_room_temp):
   if Pre_room_temp(Therm_x,Therm_y) > Desired_temp:
     AC-on = 1
 ```
+
+&nbsp; 
+
+__*LS COMMENTS:*__
+*Currently I am not sure how you are dealing with different individuals' preferences for light and heat in the same room? How are these different preferences being combined to produce your "Desired_lux" and "Desired_temp" variables? One option would be to average everything. Another would be to create several different rooms and allow different individual agents to wander through them at different time. In that case, you'd probably want to create a Room "Class" and create several. In any case, this is also something to think about as it will be driving a lot of your model as well.*
+
+*I was also wondering how fine a degree of control you are anticipating having over the light and temperature in each part of the room? I would assume that you could only really have control of the overall room temp and light levels. You might could think of it in terms of diffusion (as you mention a bit below with convection), but this will definitely make your model more complicated.*
 
 &nbsp; 
 
