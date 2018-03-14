@@ -18,18 +18,18 @@ __*LS COMMENTS:*__
 ### Goal 
 *****
  
-_With increasing energy efficiency and smart features that can adapt to occupants' preferences and communicate with other appliances, smart lighting can improve the quality of modern life while reducing energy consumption and cost. This study explores how smart lighting sensors interact with Heating Ventilation and Air Conditioning (HVAC) control to maximize occupancy comfort and builing energy savings._
+_With increasing energy efficiency and smart features that can adapt to occupants' preferences and communicate with other appliances, smart lighting can improve the quality of modern life while reducing energy consumption and cost. This study explores how smart lighting sensors interact with Heating Ventilation and Air Conditioning (HVAC) control to maximize occupancy comfort and building energy savings._
 
 &nbsp;  
 ### Justification
 ****
-_Agent-based modeling is useful for exploring the nexus between smart/connected lighting and occupants’ preference/comfort in that it provides model customizability and can reveal how well smart sensors manipulate room conditions to meet occupants' comfort level according to their control. Understanding these governing interactions between occupants, sensors, and the built environment can maximize the value of smart sensor implementation in buildings to reduce energy use and cost while enhancing ergonomic comfort._
+_Agent-based modeling is useful for exploring the nexus between smart/connected lighting, other smart sensors, and occupants’ preference/comfort in that it provides model customizability and can reveal how well smart sensors manipulate room conditions to meet occupants' comfort level according to their control. Understanding these governing interactions between occupants, sensors, and the built environment can maximize the value of smart sensor implementation in buildings to reduce energy use and cost while enhancing ergonomic comfort._
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
 ****
 
-_This study explores how the interactions 1) among smart sensors and between 2) occupants and sensors affect the system-level energy consumption from lighting and HVAC. The primary focus is on how the daylight controller decides the lighting load reduction potential from daylight harvesting against the added cooling needs from the daylight harvest._
+_This study explores how the interactions 1) among smart sensors and 2) between occupants and sensors affect the system-level energy consumption from lighting and HVAC. The primary focus is on how the daylight controller decides the lighting load reduction potential from daylight harvesting against the added cooling needs from the daylight harvest._
 
 &nbsp; 
 
